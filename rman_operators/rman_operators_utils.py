@@ -78,11 +78,13 @@ class PRMAN_OT_Renderman_Package(Operator):
                 shutil.copyfile(fpath, diskpath)
                 z.write(diskpath, arcname=os.path.join('textures', bfile))
                 remove_files.append(diskpath)
-                bfile = os.path.basename(txitem.outfile)
-                diskpath = os.path.join(texture_dir, bfile)
-                shutil.copyfile(txitem.outfile, diskpath)
-                z.write(diskpath, arcname=os.path.join('textures', bfile))
-                remove_files.append(diskpath)
+
+                if txitem.outfile != fpath:
+                    bfile = os.path.basename(txitem.outfile)
+                    diskpath = os.path.join(texture_dir, bfile)
+                    shutil.copyfile(txitem.outfile, diskpath)
+                    z.write(diskpath, arcname=os.path.join('textures', bfile))
+                    remove_files.append(diskpath)
 
         for node in shadergraph_utils.get_all_shading_nodes():
             if node.bl_label == 'PxrOSL' and getattr(node, "codetypeswitch") == "EXT":
